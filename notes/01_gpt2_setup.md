@@ -1,4 +1,4 @@
-# Setup
+# GPT-2 Setup
 
 Start by installing the `transformers` and `torch` libraries, which we need to use pre-trained models like GPT-2.
 
@@ -58,6 +58,7 @@ When you load a model using `from_pretrained`, Hugging Face automatically places
 If you want to move the model to the GPU, you need to do it explicitly. Similarly, input tensors need to be moved to the same device as the model (done later).
 
 ```python
+# Load tokenizer
 tokenizer = GPT2Tokenizer.from_pretrained("gpt2")
 
 # Move the model to the device
