@@ -1,0 +1,21 @@
+# Python
+*.py[cod] 
+*$py.class 
+
+# Environments
+env/
+venv/
+.venv/
+.env/
+
+
+# Configuration Files
+config/
+.env
+
+# Visual Studio Code
+.vscode/* 
+.history
+
+# Test Files
+test/
