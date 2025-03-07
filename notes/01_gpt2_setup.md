@@ -133,7 +133,9 @@ Imagine GPT-2 as a super-smart parrot. You give it a sentence ("The future of Ar
 The tensor (`return_tensors="pt"`) is just a fancy way of saying "give me the code in a format I can work with" and `output[0]` is like picking the first (and only) squawk from the parrot's response.
 
 ```ini
-The future of Artificial Intelligence is a very exciting one. It is a very exciting time for AI.  It is
+The future of Artificial Intelligence is a very exciting one. 
+It is a very exciting time for AI.  
+It is
 ``` 
 
 Now this response was not that awesome, so let's do something about it!
