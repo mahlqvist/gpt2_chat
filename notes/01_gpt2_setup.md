@@ -91,7 +91,7 @@ The **tokenizer** and **model** are like a translator and a writer. The translat
 Time for the **input**, which is the text prompt you want the model to complete. It's like giving the model a starting sentence.
 
 ```python
-prompt = "The future of Artificial Intelligence"
+prompt = "The future of AI is"
 ```
 
 GPT-2 is a **Language Model**, meaning it predicts what comes next in a sequence. You give it a starting point and it generates the rest.
@@ -112,7 +112,7 @@ This ensures all input sequences are the same length, so by setting `pad_token` 
 
 You should always apply these settings to both the **tokenizer** and the **model** to avoid issues. If `pad_token_id` isn't set in the **model**, it might misinterpret padding during training or inference and if `pad_token` isn't set in the **tokenizer**, it may throw an error when processing inputs with padding.
 
-Time to tokenize the input. `tokenizer(prompt)` converts the text prompt into tokens (numbers). For example, `tokenizer.encode("The future of AI")` become `[464, 2003, 286, 9552]`.
+Time to tokenize the input. `tokenizer(prompt)` converts the text prompt into tokens (numbers). For example, `tokenizer.encode("The future of AI is")` become `[464, 2003, 286, 9552, 318]`.
 
 ```python
 # Move input tensors to the device
@@ -127,8 +127,16 @@ The model expects numerical input in the form of tensors. The tokenizer converts
 To generate a response, use the `generate()` method, which tells the model to generate text based on the tokenized input. The inputs is a dictionary and we must unpack that dictionary returned by the tokenizer into keyword arguments.
 
 ```python
-output = model.generate(**inputs)
+output = model.generate(
+    **inputs,
+    pad_token_id=tokenizer.eos_token_id,
+    eos_token_id=tokenizer.eos_token_id 
+)
 ```
+
+It's a good practice to explicitly set both `pad_token_id` and `eos_token_id` in the `.generate()` method, even if you've already set them when loading the model.
+
+If you manually set `tokenizer.pad_token = tokenizer.eos_token`, this setting might not always persist when calling `.generate()`, so explicitly defining it in `.generate()` ensures it's used correctly.
 
 The model now predicts the next token in the sequence repeatedly until it reaches a stopping condition, max length or end-of-sequence token.
 
@@ -155,9 +163,8 @@ Imagine gpt-2 as a super-smart parrot. You give it a sentence ("The future of Ar
 The tensor (`return_tensors="pt"`) is just a fancy way of saying "give me the code in a format I can work with" and `output[0]` is like picking the first (and only) squawk from the parrot's response.
 
 ```ini
-The future of Artificial Intelligence is a very exciting one. 
-It is a very exciting time for AI.  
-It is
+The future of AI is not just about how we use it, 
+but how we use it to improve our lives.
 ``` 
 
-Now this response was not that awesome, so let's do something about it!
+Now this response was quite good, but let's see if we can improve it.
